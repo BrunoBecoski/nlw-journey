@@ -1,4 +1,4 @@
-import { ArrowRight, Calendar, MapPin, Settings2 } from "lucide-react";
+import { ArrowRight, Calendar, MapPin, Settings2 } from "lucide-react"
 
 interface DestinationAndDateStepProps {
   isGuestsInputOpen: boolean
