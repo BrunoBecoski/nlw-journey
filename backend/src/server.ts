@@ -4,6 +4,7 @@ import {
   serializerCompiler,
   validatorCompiler
 } from "fastify-type-provider-zod"
+import { env } from "./env"
 import { errorHandler } from "./error-handle"
 import { confirmParticipant } from "./routes/confirm-participant"
 import { confirmTrip } from "./routes/confirm-trip"
@@ -42,6 +43,6 @@ app.register(updateTrip)
 app.register(getTripDetails)
 app.register(getParticipant)
 
-app.listen({ port: 3333 }).then(() => {
+app.listen({ port: env.PORT }).then(() => {
   console.log('🚀 Server running!')
 }) 
