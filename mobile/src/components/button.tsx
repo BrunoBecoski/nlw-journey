@@ -27,7 +27,7 @@ function Button({
   return (
     <TouchableOpacity 
       className={clsx(
-        "w-full h-11 flex-none items-center justify-center rounded-lg",
+        "w-full h-11 flex-row items-center justify-center rounded-lg gap-2",
         {
           "bg-lime-300": variant === "primary",
           "bg-zinc-800": variant === "secondary",
@@ -50,8 +50,8 @@ function Title({ children }: TextProps) {
   return (
     <Text 
       className={clsx("text-base font-semibold", {
-        "bg-lime-950": variant === "primary",
-        "bg-zinc-200": variant === "secondary",
+        "text-lime-950": variant === "primary",
+        "text-zinc-200": variant === "secondary",
       })}
     >
       {children}
