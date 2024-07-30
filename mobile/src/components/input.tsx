@@ -1,24 +1,40 @@
 import { ReactNode } from "react"
-import { Platform, TextInput, TextInputProps, View } from "react-native"
+import { 
+  Platform, 
+  TextInput, 
+  TextInputProps, 
+  View, 
+  ViewProps
+} from "react-native"
 import clsx from "clsx"
 
 import { colors } from "@/styles/colors"
 
 type Variants = 'primary' | 'secondary' | 'tertiary'
 
-interface InputProps {
+interface InputProps extends ViewProps{
   children: ReactNode
   variant?: Variants
 }
 
-function Input({ children, variant = 'primary' }: InputProps) {
+function Input({ 
+  children,
+  className,
+  variant = 'primary',
+  ...props
+}: InputProps) {
   return (
     <View
-      className={clsx('w-full h-16 flex-row items-center gap-2', { 
-        'h-14 px-4 rounded-lg border border-zinc-800': variant !== 'primary',
-        'bg-zinc-950': variant === 'secondary',
-        'bg-zinc-900': variant === 'tertiary',
-      })}
+      className={clsx(
+        'min-h-16 max-h-16 flex-row items-center gap-2',
+        { 
+          'h-14 px-4 rounded-lg border border-zinc-800': variant !== 'primary',
+          'bg-zinc-950': variant === 'secondary',
+          'bg-zinc-900': variant === 'tertiary',
+        }, 
+      className
+    )}
+      {...props}
     >
       {children}
     </View>
