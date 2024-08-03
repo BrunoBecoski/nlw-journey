@@ -6,17 +6,23 @@ import { ClientError } from "../errors/client-error"
 import { prisma } from "../lib/prisma"
 
 export async function confirmParticipant(app: FastifyInstance) {
-  app.withTypeProvider<ZodTypeProvider>().get(
+  app.withTypeProvider<ZodTypeProvider>().patch(
     '/participants/:participantId/confirm',
     {
       schema: {
         params: z.object({
           participantId: z.string().uuid(),
         }),
+        body: z.object({
+          name: z.string(),
+          email: z.string().email()
+        }),
+
       },
     },
     async (request, reply) => {
       const { participantId } = request.params
+      const { name, email } = request.body
 
       const participant = await prisma.participant.findUnique({
         where: {
@@ -34,10 +40,11 @@ export async function confirmParticipant(app: FastifyInstance) {
 
       await prisma.participant.update({
         where: { id: participantId },
-        data: { is_confirmed: true }
+        data: { is_confirmed: true, name }
       })
       
-      return reply.redirect(`${env.WEB_BASE_URL}/trips/${participant.trip_id}`)
+      // return reply.redirect(`${env.WEB_BASE_URL}/trips/${participant.trip_id}`)
+      return reply.status(204).send()
     },
   )
 }
