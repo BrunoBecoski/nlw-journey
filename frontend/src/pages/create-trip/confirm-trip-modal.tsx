@@ -20,8 +20,10 @@ export function ConfirmTripModal({
   return (
     <Modal
       title="Confirmar criação de viagem"
-      description={<>Para concluir a criação da viagem para <span className="font-semibold text-zinc-100">Florianópolis, Brasil</span> nas datas de <span className="font-semibold text-zinc-100">16 a 27 de Agosto de 2024</span> preencha seus dados abaixo</>}
-      closeModal={closeConfirmTripModal}
+      description={<>
+        Para concluir a criação da viagem para <span className="font-semibold text-zinc-100">Florianópolis, Brasil</span> nas datas de <span className="font-semibold text-zinc-100">16 a 27 de Agosto de 2024</span> preencha seus dados abaixo
+      </>}
+      onClose={closeConfirmTripModal}
     >
       <form onSubmit={createTrip} className="space-y-3">
         <div className="h-14 px-4 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2">
