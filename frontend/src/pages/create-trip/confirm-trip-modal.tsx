@@ -1,9 +1,9 @@
+import { Mail, User } from "lucide-react"
 import { FormEvent } from "react"
-// import { Mail, User } from "lucide-react"
 
 import { Button } from "../../components/button"
-import { Modal } from "../../components/modal"
 import { Input } from "../../components/input"
+import { Modal } from "../../components/modal"
 
 interface ConfirmTripModalProps {
   closeConfirmTripModal: () => void
@@ -28,17 +28,21 @@ export function ConfirmTripModal({
     >
       <form onSubmit={createTrip} className="space-y-3">
         <Input
-          onChange={(event => setOwnerName(event.target.value))} 
           name="name"
-          placeholder="Seu nome completo" 
-        />
+          placeholder="Seu nome completo"
+          onChange={(event => setOwnerName(event.target.value))} 
+        >
+          <User className="text-zinc-400 size-5" />
+        </Input>
 
         <Input
-          onChange={(event => setOwnerEmail(event.target.value))} 
           type="email"
           name="email"
           placeholder="Seu e-mail pessoal" 
-        />
+          onChange={(event => setOwnerEmail(event.target.value))} 
+        >
+          <Mail className="text-zinc-400 size-5" />
+        </Input>
 
         <Button type="submit" variant="primary" size="full">
           Confirmar criação da viagem
