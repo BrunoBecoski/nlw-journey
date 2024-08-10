@@ -1,4 +1,3 @@
-// import { Calendar, Tag } from "lucide-react"
 import { FormEvent } from "react"
 import { useParams } from "react-router-dom"
 
@@ -40,11 +39,13 @@ export function CreateActivityModal({
     >          
       <form onSubmit={createActivity} className="space-y-3">
         <Input
+          icon="tag"
           name="title"
           placeholder="Qual a atividade?"         
         />
 
         <Input
+          icon="calendar"
           type="datetime-local"
           name="occurs_at"
           placeholder="Data e horário da atividade" 
