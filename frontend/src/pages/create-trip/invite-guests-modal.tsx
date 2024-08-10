@@ -1,5 +1,6 @@
+import { AtSign } from "lucide-react"
 import { FormEvent } from "react"
-import { AtSign, Plus, X } from "lucide-react"
+
 import { Button } from "../../components/button"
 import { Modal } from "../../components/modal"
 
@@ -27,10 +28,12 @@ export function InviteGuestsModal({
           return (
             <div key={email} className="py-1.5 px-2.5 rounded-md bg-zinc-800 flex items-center gap-2">
               <span className="text-zinc-300">{email}</span>
-              <button type="button" onClick={() => removeEmailFormInvites(email)} title="Remover">
-                <X className="size-4 text-zinc-400 hover:text-zinc-50" />
-              </button>
-            </div>
+              <Button 
+                variant="close"
+                title="Remover"
+                onClick={() => removeEmailFormInvites(email)}
+              />
+          </div>
           )
         })}
       </div>
@@ -48,9 +51,8 @@ export function InviteGuestsModal({
           />
         </div>
 
-        <Button type="submit" variant="primary">
+        <Button type="submit" variant="primary" icon="plus">
           Convidar
-          <Plus className="size-5" />
         </Button>
       </form>
     </Modal>

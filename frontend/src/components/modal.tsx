@@ -1,5 +1,6 @@
-import { X } from "lucide-react"
 import { ReactNode } from "react"
+
+import { Button } from "./button"
 
 interface ModalProps {
   title: string
@@ -15,9 +16,11 @@ interface ModalProps {
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-semibold">{title}</h2>
-            <button type="button" onClick={onClose} title="Fechar">
-              <X className="size-5 text-zinc-400 hover:text-zinc-50" /> 
-            </button>
+            <Button
+              type="button"
+              onClick={onClose}
+              variant="close"
+            />
           </div>
           { description && <p className="text-sm text-zinc-400">{description}</p> }
         </div>

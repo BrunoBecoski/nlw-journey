@@ -1,10 +1,10 @@
 import { lazy, Suspense } from "react"
 import dynamicIconImports from "lucide-react/dynamicIconImports"
 
-export type Name = keyof typeof dynamicIconImports
+export type IconName = keyof typeof dynamicIconImports
 
 interface IconProps {
-  name: Name
+  name: IconName
   className?: string
 }
 

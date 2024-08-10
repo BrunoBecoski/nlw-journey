@@ -1,5 +1,6 @@
-import { X } from "lucide-react"
 import { DateRange, DayPicker } from "react-day-picker"
+
+import { Button } from "./button"
 
 interface DatePickerProps {
   closeDatePicker: () => void
@@ -19,9 +20,10 @@ export function DatePicker({
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-semibold">Selecione a data</h2>
 
-            <button type="button" onClick={closeDatePicker} title="Fechar">
-              <X className="size-5 text-zinc-400 hover:text-zinc-50" />
-            </button>
+            <Button 
+              onClick={closeDatePicker}
+              variant="close"
+            />
           </div>
         </div>
 

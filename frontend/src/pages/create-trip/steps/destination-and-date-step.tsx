@@ -1,9 +1,10 @@
-import { ArrowRight, Calendar, MapPin, Settings2 } from "lucide-react"
-import { Button } from "../../../components/button"
+import { format } from "date-fns"
+import { Calendar, MapPin } from "lucide-react"
 import { useState } from "react"
 import { DateRange } from "react-day-picker"
 import "react-day-picker/dist/style.css"
-import { format } from "date-fns"
+
+import { Button } from "../../../components/button"
 import { DatePicker } from "../../../components/date-picker"
 
 interface DestinationAndDateStepProps {
@@ -68,14 +69,12 @@ export function DestinationAndDateStep({
       <div className="w-px h-6 bg-zinc-800" />
 
       {isGuestsInputOpen ? (
-        <Button onClick={closeGuestsInput} variant="secondary">
+        <Button onClick={closeGuestsInput} variant="secondary" icon="settings-2">
           Alterar local/data
-          <Settings2 className="size-5" />
         </Button>
       ) : (
-        <Button onClick={openGuestsInput} variant="primary">
+        <Button onClick={openGuestsInput} variant="primary" icon="arrow-right">
           Continuar
-          <ArrowRight className="size-5" />
         </Button>
       )}
     </div>
