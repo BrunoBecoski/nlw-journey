@@ -1,11 +1,12 @@
 import { format } from "date-fns"
-import { Calendar, MapPin } from "lucide-react"
+import { Calendar } from "lucide-react"
 import { useState } from "react"
 import { DateRange } from "react-day-picker"
 import "react-day-picker/dist/style.css"
 
 import { Button } from "../../../components/button"
 import { DatePicker } from "../../../components/date-picker"
+import { Input } from "../../../components/input"
 
 interface DestinationAndDateStepProps {
   isGuestsInputOpen: boolean
@@ -40,16 +41,13 @@ export function DestinationAndDateStep({
   
   return (
     <div className="h-16 bg-zinc-900 px-4 rounded-xl flex items-center shadow-shape gap-3">
-      <div className="flex items-center gap-2 flex-1">
-        <MapPin className="size-5 text-zinc-400" />
-        <input 
-          disabled={isGuestsInputOpen} 
-          type="text"
-          placeholder="Para onde você vai?"
-          className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1"
-          onChange={(event) => setDestination(event.target.value)}
-        />
-      </div>
+      <Input
+        icon="map-pin"
+        variant="secondary"
+        placeholder="Para onde você vai?"
+        disabled={isGuestsInputOpen}
+        onChange={(event) => setDestination(event.target.value)}
+      />
 
       <button onClick={openDatePicker} disabled={isGuestsInputOpen} className="flex items-center gap-2 text-left w-[240px]">
         <Calendar className="size-5 text-zinc-400" />
