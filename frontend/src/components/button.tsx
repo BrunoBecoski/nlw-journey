@@ -27,15 +27,16 @@ const buttonVariants = tv({
 
 interface ButtonProps extends ComponentProps<'button'>, VariantProps<typeof buttonVariants>{
   icon?: IconName,
+  iconSize?: 'md' | 'sm'
   children?: ReactNode,
 }
 
-export function Button({ icon, variant, size, children, ...props }: ButtonProps) {
+export function Button({ icon, variant, size, iconSize = 'md', children, ...props }: ButtonProps) {
 
   if (variant === 'close') {
     return (
       <button  type="button" title="Fechar" {...props} >
-        <Icon name="x" className="size-5 text-zinc-400 hover:text-zinc-50" />
+        <Icon name="x" className={`text-zinc-400 hover:text-zinc-50" ${ iconSize === 'md' ? 'size-5' : 'size-4'}`} />
       </button>
     )
   } 
@@ -43,7 +44,7 @@ export function Button({ icon, variant, size, children, ...props }: ButtonProps)
   return (
     <button className={buttonVariants({ variant, size })} {...props}>
       {children}
-      {icon && <Icon name={icon} className="size-5" /> }
+      {icon && <Icon name={icon} className={ iconSize === 'md' ? 'size-5' : 'size-4'} />} 
     </button>
   )
 }

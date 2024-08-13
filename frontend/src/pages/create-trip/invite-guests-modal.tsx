@@ -28,7 +28,8 @@ export function InviteGuestsModal({
           return (
             <div key={email} className="py-1.5 px-2.5 rounded-md bg-zinc-800 flex items-center gap-2">
               <span className="text-zinc-300">{email}</span>
-              <Button 
+              <Button
+                iconSize="sm"
                 variant="close"
                 title="Remover"
                 onClick={() => removeEmailFormInvites(email)}
