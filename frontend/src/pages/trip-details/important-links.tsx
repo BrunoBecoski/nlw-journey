@@ -1,11 +1,20 @@
 import { Plus } from "lucide-react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useParams } from "react-router-dom"
 
 import { Button } from "../../components/button"
 import { Link } from "../../components/link"
+import { api } from "../../lib/axios"
 import { CreateLinkModal } from "./create-link-modal"
 
+interface Link {
+  title: string
+  url: string
+}
+
 export function ImportantLinks() {
+  const { tripId } = useParams()
+  const [links, setLinks] = useState<Link[]>([])
   const [isCreateLinkModalOpen, setIsCreateLinkModalOpen] = useState(false)
 
   function openCreateLinkModal() {
@@ -16,20 +25,23 @@ export function ImportantLinks() {
     setIsCreateLinkModalOpen(false)
   }
 
+  useEffect(() => {
+    api.get(`/trips/${tripId}/links`).then(response => setLinks(response.data.links))
+  }, [tripId])
+
   return (
     <div className="space-y-6">
       <h2 className="font-semibold text-xl">Links importantes</h2>
       
       <div className="space-y-5">
-        <Link
-          title="Reservado AirBnB"
-          url="https://www.airbnb.com.br/rooms/012346578901234567890123456789"
-        />
-
-        <Link
-          title="Regras da Casa"
-          url="https://www.notion.com/pages/012346578901234567890123456789"
-        />
+        {links.map(link => {
+          return (
+            <Link
+              title={link.title}
+              url={link.url}
+            />
+          )
+        })}
       </div>
       
       <Button variant="secondary" size="full" onClick={openCreateLinkModal}>

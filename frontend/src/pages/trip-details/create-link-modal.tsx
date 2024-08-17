@@ -1,19 +1,41 @@
+import { FormEvent } from "react"
+import { useParams } from "react-router-dom"
+
 import { Button } from "../../components/button"
 import { Input } from "../../components/input"
 import { Modal } from "../../components/modal"
+import { api } from "../../lib/axios"
 
 interface CreateLinkModalProps {
   closeCreateLinkModal: () => void
 }
 
 export function CreateLinkModal({ closeCreateLinkModal }: CreateLinkModalProps) {
+  const { tripId } = useParams() 
+
+  async function createLink(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+
+    const data = new FormData(event.currentTarget)
+
+    const title = data.get('title')?.toString()
+    const url = data.get('url')?.toString()
+
+    await api.post(`/trips/${tripId}/links`, {
+      title,
+      url,
+    })
+
+    window.document.location.reload()
+  }
+  
   return (
     <Modal
       title="Cadastrar link"
       description="Todos convidados podem visualizar os links importantes."
       onClose={closeCreateLinkModal}
     >
-      <form className="space-y-3">
+      <form onSubmit={createLink} className="space-y-3">
         <Input
           icon="tag"
           name="title"
