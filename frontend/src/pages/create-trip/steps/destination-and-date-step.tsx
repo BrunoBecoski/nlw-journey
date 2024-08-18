@@ -51,14 +51,14 @@ export function DestinationAndDateStep({
 
       <button onClick={openDatePicker} disabled={isGuestsInputOpen} className="flex items-center gap-2 text-left w-[240px]">
         <Calendar className="size-5 text-zinc-400" />
-        <span className="text-`g text-zinc-400 w-40 flex-1">
+        <span className="text-lg text-zinc-400 w-40 flex-1">
           {displayedDate || 'Quando?'}
         </span>
       </button>
 
       {isDatePickerOpen && (
         <DatePicker
-           eventStartAndEndDates={eventStartAndEndDates}
+          eventStartAndEndDates={eventStartAndEndDates}
           setEventStartAndEndDates={setEventStartAndEndDates}
           closeDatePicker={closeDatePicker}
         />
