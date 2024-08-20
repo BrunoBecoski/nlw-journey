@@ -40,7 +40,7 @@ export function DestinationAndDateHeader() {
     <div className="px-4 h-16 rounded-xl bg-zinc-900 shadow-shape flex items-center justify-between">
       <div className="flex items-center gap-2">
         <Icon name="map-pin" className="size-5 text-zinc-400" />
-        <span className="text-zinc-100">{trip?.destination}l</span>
+        <span className="text-zinc-100">{trip?.destination}</span>
       </div>
 
       <div className="flex items-center gap-5">
@@ -57,8 +57,11 @@ export function DestinationAndDateHeader() {
       </div>
 
       {isUpdateModalOpen &&(
-        <UpdateEventModal 
+        <UpdateEventModal
           closeUpdateEventModal={closeUpdateEventModal}
+          destination={trip?.destination}
+          startsAt={trip?.starts_at}
+          endsAt={trip?.ends_at}
         />
       )}
     </div>

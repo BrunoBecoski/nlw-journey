@@ -8,6 +8,7 @@ import { api } from "../../lib/axios"
 import { CreateLinkModal } from "./create-link-modal"
 
 interface Link {
+  id: string
   title: string
   url: string
 }
@@ -37,6 +38,7 @@ export function ImportantLinks() {
         {links.map(link => {
           return (
             <Link
+              key={link.id}
               title={link.title}
               url={link.url}
             />
