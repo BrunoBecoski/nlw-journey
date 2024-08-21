@@ -1,12 +1,12 @@
 import { useParams } from "react-router-dom"
 import { format } from "date-fns"
 import { FormEvent, useState } from "react"
-import { DateRange, DayPicker } from "react-day-picker"
 
 import { Button } from "../../components/button"
 import { Input } from "../../components/input"
 import { Modal } from "../../components/modal"
 import { api } from "../../lib/axios"
+import { DatePicker, DatePickerRange } from "../../components/date-picker"
 
 interface UpdateEventModalProps {
   destination?: string
@@ -18,7 +18,7 @@ interface UpdateEventModalProps {
 export function UpdateEventModal({ destination, startsAt, endsAt, closeUpdateEventModal }: UpdateEventModalProps) {
   const { tripId } = useParams()
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
-  const [eventStartAndEndDates, setEventStartAndEndDates] = useState<DateRange | undefined>({
+  const [eventStartAndEndDates, setEventStartAndEndDates] = useState<DatePickerRange | undefined>({
     from: startsAt ? new Date(startsAt) : new Date(), 
     to: endsAt ? new Date(endsAt) : new Date(),
   })
@@ -58,10 +58,9 @@ export function UpdateEventModal({ destination, startsAt, endsAt, closeUpdateEve
     >
       {isDatePickerOpen? (
         <div className="flex flex-col items-center">       
-          <DayPicker
-            mode="range"
-            selected={eventStartAndEndDates}
-            onSelect={setEventStartAndEndDates}
+          <DatePicker
+            eventStartAndEndDates={eventStartAndEndDates}
+            setEventStartAndEndDates={setEventStartAndEndDates}
           />
           <Button onClick={closeDatePicker}>Confirmar</Button>
         </div>

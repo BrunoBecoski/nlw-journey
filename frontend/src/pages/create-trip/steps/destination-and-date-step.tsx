@@ -1,20 +1,19 @@
 import { format } from "date-fns"
 import { Calendar } from "lucide-react"
 import { useState } from "react"
-import { DateRange } from "react-day-picker"
 import "react-day-picker/dist/style.css"
 
 import { Button } from "../../../components/button"
-import { DatePicker } from "../../../components/date-picker"
+import { DatePicker, DatePickerRange } from "../../../components/date-picker"
 import { Input } from "../../../components/input"
 
 interface DestinationAndDateStepProps {
   isGuestsInputOpen: boolean
-  eventStartAndEndDates: DateRange | undefined
+  eventStartAndEndDates: DatePickerRange | undefined
   closeGuestsInput: () => void
   openGuestsInput: () => void
   setDestination: (destination: string) => void
-  setEventStartAndEndDates: (dates: DateRange | undefined) => void
+  setEventStartAndEndDates: (dates: DatePickerRange | undefined) => void
 }
 
 export function DestinationAndDateStep({
@@ -57,11 +56,25 @@ export function DestinationAndDateStep({
       </button>
 
       {isDatePickerOpen && (
-        <DatePicker
-          eventStartAndEndDates={eventStartAndEndDates}
-          setEventStartAndEndDates={setEventStartAndEndDates}
-          closeDatePicker={closeDatePicker}
-        />
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center">
+          <div className="rounded-xl py-5 px-6 shadow-shape bg-zinc-900 space-y-5">
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <h2 className="text-lg font-semibold">Selecione a data</h2>
+    
+                <Button 
+                  onClick={closeDatePicker}
+                  variant="close"
+                />
+              </div>
+            </div>
+    
+            <DatePicker
+              eventStartAndEndDates={eventStartAndEndDates}
+              setEventStartAndEndDates={setEventStartAndEndDates}
+            />
+          </div>
+        </div>
       )}
 
       <div className="w-px h-6 bg-zinc-800" />
