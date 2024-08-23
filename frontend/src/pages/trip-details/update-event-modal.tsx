@@ -59,6 +59,7 @@ export function UpdateEventModal({ destination, startsAt, endsAt, closeUpdateEve
       {isDatePickerOpen? (
         <div className="flex flex-col items-center">       
           <DatePicker
+            displayedDate={displayedDate}
             eventStartAndEndDates={eventStartAndEndDates}
             setEventStartAndEndDates={setEventStartAndEndDates}
           />

@@ -36,7 +36,7 @@ export function DestinationAndDateStep({
 
   const displayedDate = eventStartAndEndDates && eventStartAndEndDates.from && eventStartAndEndDates.to
     ? format(eventStartAndEndDates.from, "d' de 'LLL").concat(' até ').concat(format(eventStartAndEndDates.to, "d' de 'LLL"))
-    : null
+    : ''
   
   return (
     <div className="h-16 bg-zinc-900 px-4 rounded-xl flex items-center shadow-shape gap-3">
@@ -70,6 +70,7 @@ export function DestinationAndDateStep({
             </div>
     
             <DatePicker
+              displayedDate={displayedDate}
               eventStartAndEndDates={eventStartAndEndDates}
               setEventStartAndEndDates={setEventStartAndEndDates}
             />
