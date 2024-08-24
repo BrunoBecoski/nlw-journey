@@ -57,14 +57,11 @@ export function UpdateEventModal({ destination, startsAt, endsAt, closeUpdateEve
       title="Atualizar viagem"
     >
       {isDatePickerOpen? (
-        <div className="flex flex-col items-center">       
-          <DatePicker
-            displayedDate={displayedDate}
-            eventStartAndEndDates={eventStartAndEndDates}
-            setEventStartAndEndDates={setEventStartAndEndDates}
-          />
-          <Button onClick={closeDatePicker}>Confirmar</Button>
-        </div>
+        <DatePicker
+        eventStartAndEndDates={eventStartAndEndDates}
+        setEventStartAndEndDates={setEventStartAndEndDates}
+        onClose={closeDatePicker}
+      />
       ) : (
         <form onSubmit={updateEvent} className="space-y-2">
           <Input

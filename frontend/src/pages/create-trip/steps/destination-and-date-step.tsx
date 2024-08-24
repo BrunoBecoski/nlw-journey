@@ -70,9 +70,9 @@ export function DestinationAndDateStep({
             </div>
     
             <DatePicker
-              displayedDate={displayedDate}
               eventStartAndEndDates={eventStartAndEndDates}
               setEventStartAndEndDates={setEventStartAndEndDates}
+              onClose={closeDatePicker}
             />
           </div>
         </div>
