@@ -1,20 +1,31 @@
-import { DateRange, DayPicker } from "react-day-picker"
+import { format } from "date-fns"
 import { ptBR } from "date-fns/locale"
+import { DateRange, DayPicker } from "react-day-picker"
+
+import { Button } from "./button"
+import { Icon } from "./icon"
 
 export type DatePickerRange = DateRange 
 
 interface DatePickerProps {
   eventStartAndEndDates: DatePickerRange | undefined
   setEventStartAndEndDates: (dates: DatePickerRange | undefined) => void
-  displayedDate: string
 }
 
 export function DatePicker({
   eventStartAndEndDates,
   setEventStartAndEndDates,
-  displayedDate
 }: DatePickerProps) {
+
+  const displayedStartDate = eventStartAndEndDates?.from &&
+    format(eventStartAndEndDates.from, "d' de 'LLLL", { locale:  ptBR })
+
+  const displayedEndDate = eventStartAndEndDates?.to &&
+    format(eventStartAndEndDates.to, "d' de 'LLLL", { locale:  ptBR })
+  
   return (
+    <div>
+    
     <DayPicker
       mode="range"
       selected={eventStartAndEndDates}
@@ -33,9 +44,31 @@ export function DatePicker({
         day_range_middle: 'border-2 border-lime-500 ',
         day_range_end: 'border-2 border-lime-500 ',
         day_today: 'text-lime-400 font-bold',
-        tfoot: 'text-center border-t-2 border-zinc-800',
       }}
-      footer={eventStartAndEndDates && displayedDate}
     />
+      
+      <div className=" border-t-2 border-zinc-800">
+        <div className="flex justify-evenly my-4">
+          <span className="font-medium">
+            {eventStartAndEndDates?.from && displayedStartDate}
+          </span>
+
+          <Icon
+            name="move-horizontal"
+          />
+
+          <span className="font-medium">
+            {eventStartAndEndDates?.to && displayedEndDate}
+          </span>
+        </div>
+
+        <Button
+          icon="calendar-check"
+          size="full"
+        >
+          Confirmar
+          </Button>   
+      </div>
+    </div>
   )
 }
