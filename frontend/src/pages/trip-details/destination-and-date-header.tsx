@@ -1,23 +1,18 @@
 import { format } from "date-fns"
-import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useState } from "react"
 
 import { Button } from "../../components/button"
-import { Icon } from "../../components/icon"
-import { api } from "../../lib/axios"
-import { UpdateEventModal } from "./update-event-modal"
+import { Trip } from "./index"
 
-interface Trip {
-  id: string
-  destination: string
-  starts_at: string 
-  ends_at: string
-  is_confirmed: boolean
+import { UpdateEventModal } from "./update-event-modal"
+import { Icon } from "../../components/icon"
+
+interface DestinationAndDateHeaderProps {
+  trip?: Trip
 }
 
-export function DestinationAndDateHeader() {
-  const { tripId } = useParams()
-  const [trip, setTrip] = useState<Trip | undefined>()
+export function DestinationAndDateHeader({ trip }: DestinationAndDateHeaderProps) {
+
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false)
 
   const displayedDate = trip
@@ -31,10 +26,6 @@ export function DestinationAndDateHeader() {
   function closeUpdateEventModal() {
     return setIsUpdateModalOpen(false)
   }
-
-  useEffect(() => {
-    api.get(`/trips/${tripId}`).then(response => setTrip(response.data.trip))
-  }, [tripId])
 
   return (
     <div className="px-4 h-16 rounded-xl bg-zinc-900 shadow-shape flex items-center justify-between">
