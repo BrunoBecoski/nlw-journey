@@ -11,6 +11,7 @@ const buttonVariants = tv({
       primary: 'bg-lime-300 text-lime-950 hover:bg-lime-400',
       secondary: 'bg-zinc-800 text-zinc-200 hover:bg-zinc-700',
       close: '',
+      icon: '',
     },
 
     size: {
@@ -36,10 +37,18 @@ export function Button({ icon, variant, size, iconSize = 'md', children, ...prop
   if (variant === 'close') {
     return (
       <button  type="button" title="Fechar" {...props} >
-        <Icon name="x" className={`text-zinc-400 hover:text-zinc-50" ${ iconSize === 'md' ? 'size-5' : 'size-4'}`} />
+        <Icon name="x" className={`text-zinc-400 hover:text-zinc-500" ${ iconSize === 'md' ? 'size-5' : 'size-4'}`} />
       </button>
     )
   } 
+
+  if (variant === 'icon' && icon) {
+    return (
+      <button type="button" className="text-zinc-300 hover:text-zinc-100" title="Fechar"  {...props} >
+        <Icon name={icon} className={`${ iconSize === 'md' ? 'size-5' : 'size-4'}`} />
+      </button>
+    )
+  }
 
   return (
     <button className={buttonVariants({ variant, size })} {...props}>
