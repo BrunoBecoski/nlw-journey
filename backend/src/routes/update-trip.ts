@@ -49,7 +49,7 @@ export async function updateTrip(app: FastifyInstance) {
         },
       })
 
-      return { tripId: trip.id}
+      return { tripId: trip.id }
     },
   )
 }
