@@ -1,11 +1,11 @@
-import type { FastifyInstance } from "fastify"
-import type { ZodTypeProvider } from "fastify-type-provider-zod"
+import { FastifyInstance } from "fastify"
+import { ZodTypeProvider } from "fastify-type-provider-zod"
 import z from "zod"
 import { ClientError } from "../../errors/client-error"
 import { prisma } from "../../lib/prisma"
 
-export async function updateLink(app: FastifyInstance) {
-  app.withTypeProvider<ZodTypeProvider>().put(
+export async function deleteLink(app: FastifyInstance) {
+  app.withTypeProvider<ZodTypeProvider>().delete(
     '/trips/:tripId/links/:linkId',
     {
       schema: {
@@ -13,15 +13,10 @@ export async function updateLink(app: FastifyInstance) {
           tripId: z.string().uuid(),
           linkId: z.string().uuid(),
         }),
-        body: z.object({
-          title: z.string().min(4),
-          url: z.string().url(),
-        }),
       },
     },
     async (request, reply) => {
       const { tripId, linkId } = request.params
-      const { title, url } = request.body
 
       const trip = await prisma.trip.findUnique({
         where: { id: tripId }
@@ -39,15 +34,11 @@ export async function updateLink(app: FastifyInstance) {
         throw new ClientError('Link not found.')
       }
 
-      await prisma.link.update({
-        where: { id: linkId },
-        data: {
-          title,
-          url,
-        },
+      await prisma.link.delete({
+        where: { id: linkId }
       })
 
-      return reply.status(201).send({ linkId: link.id })
-    },
+      return reply.status(204).send()
+    }
   )
 }

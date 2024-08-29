@@ -14,7 +14,7 @@ export async function getLinks(app: FastifyInstance) {
         }),
       },
     },
-    async (request) => {
+    async (request, reply) => {
       const { tripId } = request.params
 
       const trip = await prisma.trip.findUnique({
@@ -28,7 +28,7 @@ export async function getLinks(app: FastifyInstance) {
         throw new ClientError('Trip not found.')
       }
 
-      return { links: trip.links }
+      return reply.status(200).send({ links: trip.links })
     }
   )
 }

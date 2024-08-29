@@ -20,6 +20,7 @@ import { updateTrip } from "./routes/update-trip"
 import { createLink } from "./routes/link/create-link"
 import { getLinks } from "./routes/link/get-links"
 import { updateLink } from "./routes/link/update-link"
+import { deleteLink } from "./routes/link/delete-link"
 
 const app = fastify()
 
@@ -46,6 +47,7 @@ app.register(getParticipant)
 app.register(createLink)
 app.register(getLinks)
 app.register(updateLink)
+app.register(deleteLink)
 
 app
   .listen({ 
