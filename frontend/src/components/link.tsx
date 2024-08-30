@@ -1,3 +1,6 @@
+import { useState } from "react"
+
+import { CreateLinkModal } from "../pages/trip-details/create-link-modal"
 import { Button } from "./button"
 import { Icon } from "./icon"
 
@@ -7,11 +10,21 @@ interface LinkProps {
 }
 
 export function Link({ title, url }: LinkProps) {
+  const [isCreateLinkModalOpen, setIsCreateLinkModalOpen] = useState(false)
+
+  function openCreateLinkModal() {
+    setIsCreateLinkModalOpen(true)
+  }
+
+  function closeCreateLinkModal() {
+    setIsCreateLinkModalOpen(false)
+  }
+
   return (
     <div className="flex items-center justify-between gap-4">
       <div className="space-y-1.5">
         <div className="flex items-center gap-2">
-          <Button title="Editar" variant="icon" icon="pen" iconSize="sm" />
+          <Button title="Editar" variant="icon" icon="pen" iconSize="sm" onClick={openCreateLinkModal} />
 
           <span className="font-medium text-zinc-100">
             {title}
@@ -31,6 +44,10 @@ export function Link({ title, url }: LinkProps) {
         name="link-2"
         className="text-zinc-400 size-5 shrink-0"
       />
+
+      {isCreateLinkModalOpen && (
+        <CreateLinkModal closeCreateLinkModal={closeCreateLinkModal} title={title} url={url} />
+      )}
     </div>
   )
 }

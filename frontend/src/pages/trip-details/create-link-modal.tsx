@@ -8,9 +8,11 @@ import { api } from "../../lib/axios"
 
 interface CreateLinkModalProps {
   closeCreateLinkModal: () => void
+  title?: string
+  url?: string
 }
 
-export function CreateLinkModal({ closeCreateLinkModal }: CreateLinkModalProps) {
+export function CreateLinkModal({ closeCreateLinkModal, title, url }: CreateLinkModalProps) {
   const { tripId } = useParams() 
 
   async function createLink(event: FormEvent<HTMLFormElement>) {
@@ -40,12 +42,14 @@ export function CreateLinkModal({ closeCreateLinkModal }: CreateLinkModalProps) 
           icon="tag"
           name="title"
           placeholder="Título do link"
+          defaultValue={title}
         />
 
         <Input
           icon="link-2"
           name="url"
           placeholder="URL"
+          defaultValue={url}
         />
 
         <Button variant="primary" size="full">
