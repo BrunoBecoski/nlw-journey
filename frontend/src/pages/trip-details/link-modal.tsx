@@ -8,12 +8,13 @@ import { api } from "../../lib/axios"
 
 interface LinkModalProps {
   variant: 'create' | 'edit'
+  linkId?: string
   title?: string
   url?: string
   closeLinkModal: () => void
 }
 
-export function LinkModal({ variant, closeLinkModal, title, url }: LinkModalProps) {
+export function LinkModal({ variant, linkId, title, url, closeLinkModal, }: LinkModalProps) {
   const { tripId } = useParams() 
 
   async function createLink(event: FormEvent<HTMLFormElement>) {
@@ -32,71 +33,58 @@ export function LinkModal({ variant, closeLinkModal, title, url }: LinkModalProp
     window.document.location.reload()
   }
 
-  if (variant === 'edit') {
-    return (
-      <Modal
-        title="Editar link"
-        description="Todos convidados podem visualizar os links importantes."
-        onClose={closeLinkModal}
+  async function updateLink(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+
+    const data = new FormData(event.currentTarget)
+
+    const title = data.get('title')?.toString()
+    const url = data.get('url')?.toString()
+
+    await api.put(`/trips/${tripId}/links/${linkId}`, {
+      title,
+      url,
+    })
+
+    window.document.location.reload()
+  }
+
+  return (
+    <Modal
+      title={variant === 'create' ? 'Cadastrar link': 'Editar link' }
+      description="Todos convidados podem visualizar os links importantes."
+      onClose={closeLinkModal}
+    >
+      <form 
+        onSubmit={variant === 'create' ? createLink : updateLink}      
+        className="space-y-3"
       >
-        <form onSubmit={() => {}} className="space-y-3">
-          <Input
-            icon="tag"
-            name="title"
-            placeholder="Título do link"
-            defaultValue={title}
-          />
-  
-          <Input
-            icon="link-2"
-            name="url"
-            placeholder="URL"
-            defaultValue={url}
-          />
-          
-          <div className="flex gap-4">
-    
-            <Button variant="primary" size="full">
-              Salvar link
-            </Button>
-            
+        <Input
+          icon="tag"
+          name="title"
+          placeholder="Título do link"
+          defaultValue={title}
+        />
+
+        <Input
+          icon="link-2"
+          name="url"
+          placeholder="URL"
+          defaultValue={url}
+        />
+
+        <div className="flex gap-4">
+          <Button variant="primary" size="full">
+            { variant === 'create' ? 'Salvar link' : 'Atualizar link' }
+          </Button>
+
+          { variant === 'edit' &&
             <Button variant="secondary" size="full">
               Excluir link
             </Button>
-          </div>
-        </form>
-      </Modal>
-    )
-  }
-
-  if (variant === 'create') {
-
-    return (
-      <Modal
-        title="Cadastrar link"
-        description="Todos convidados podem visualizar os links importantes."
-        onClose={closeLinkModal}
-      >
-        <form onSubmit={createLink} className="space-y-3">
-          <Input
-            icon="tag"
-            name="title"
-            placeholder="Título do link"
-            defaultValue={title}
-          />
-  
-          <Input
-            icon="link-2"
-            name="url"
-            placeholder="URL"
-            defaultValue={url}
-          />
-  
-          <Button variant="primary" size="full">
-            Salvar link
-          </Button>
-        </form>
-      </Modal>
-    )
-  }
+          }
+        </div>
+      </form>
+    </Modal>
+  )
 }

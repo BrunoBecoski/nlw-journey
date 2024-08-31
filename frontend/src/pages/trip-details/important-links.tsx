@@ -38,6 +38,7 @@ export function ImportantLinks() {
         {links.map(link => {
           return (
             <Link
+              id={link.id}
               key={link.id}
               title={link.title}
               url={link.url}

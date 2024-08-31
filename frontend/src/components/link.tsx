@@ -1,15 +1,16 @@
-import { useState } from "react"
+import { ComponentProps, useState } from "react"
 
 import { LinkModal } from "../pages/trip-details/link-modal"
 import { Button } from "./button"
 import { Icon } from "./icon"
 
-interface LinkProps {
+interface LinkProps extends ComponentProps<'div'> {
+  id: string
   title: string
   url: string
 }
 
-export function Link({ title, url }: LinkProps) {
+export function Link({ id, title, url ,...props }: LinkProps) {
   const [isLinkModalOpen, setIsLinkModalOpen] = useState(false)
 
   function openLinkModal() {
@@ -21,7 +22,7 @@ export function Link({ title, url }: LinkProps) {
   }
 
   return (
-    <div className="flex items-center justify-between gap-4">
+    <div className="flex items-center justify-between gap-4" {...props}>
       <div className="space-y-1.5">
         <div className="flex items-center gap-2">
           <Button title="Editar" variant="icon" icon="pen" iconSize="sm" onClick={openLinkModal} />
@@ -46,7 +47,13 @@ export function Link({ title, url }: LinkProps) {
       />
 
       {isLinkModalOpen && (
-        <LinkModal variant="edit" closeLinkModal={closeLinkModal} title={title} url={url} />
+        <LinkModal 
+          variant="edit"
+          linkId={id}
+          title={title}
+          url={url}
+          closeLinkModal={closeLinkModal}
+        />
       )}
     </div>
   )
