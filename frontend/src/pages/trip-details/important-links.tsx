@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom"
 import { Button } from "../../components/button"
 import { Link } from "../../components/link"
 import { api } from "../../lib/axios"
-import { CreateLinkModal } from "./create-link-modal"
+import { LinkModal } from "./link-modal"
 
 interface Link {
   id: string
@@ -16,14 +16,14 @@ interface Link {
 export function ImportantLinks() {
   const { tripId } = useParams()
   const [links, setLinks] = useState<Link[]>([])
-  const [isCreateLinkModalOpen, setIsCreateLinkModalOpen] = useState(false)
+  const [isLinkModalOpen, setIsLinkModalOpen] = useState(false)
 
-  function openCreateLinkModal() {
-    setIsCreateLinkModalOpen(true)
+  function openLinkModal() {
+    setIsLinkModalOpen(true)
   }
 
-  function closeCreateLinkModal() {
-    setIsCreateLinkModalOpen(false)
+  function closeLinkModal() {
+    setIsLinkModalOpen(false)
   }
 
   useEffect(() => {
@@ -46,13 +46,13 @@ export function ImportantLinks() {
         })}
       </div>
       
-      <Button variant="secondary" size="full" onClick={openCreateLinkModal}>
+      <Button variant="secondary" size="full" onClick={openLinkModal}>
         <Plus className="size-5" />
         Cadastrar novo link
       </Button>
 
-      {isCreateLinkModalOpen && (
-        <CreateLinkModal closeCreateLinkModal={closeCreateLinkModal} />
+      {isLinkModalOpen && (
+        <LinkModal variant="create" closeLinkModal={closeLinkModal} />
       )}
     </div>
   )
