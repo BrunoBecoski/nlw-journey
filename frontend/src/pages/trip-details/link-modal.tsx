@@ -49,6 +49,12 @@ export function LinkModal({ variant, linkId, title, url, closeLinkModal, }: Link
     window.document.location.reload()
   }
 
+  async function deleteLink() {
+    await api.delete(`/trips/${tripId}/links/${linkId}`)
+
+    window.document.location.reload()
+  }
+
   return (
     <Modal
       title={variant === 'create' ? 'Cadastrar link': 'Editar link' }
@@ -74,12 +80,12 @@ export function LinkModal({ variant, linkId, title, url, closeLinkModal, }: Link
         />
 
         <div className="flex gap-4">
-          <Button variant="primary" size="full">
+          <Button type="submit" variant="primary" size="full">
             { variant === 'create' ? 'Salvar link' : 'Atualizar link' }
           </Button>
 
           { variant === 'edit' &&
-            <Button variant="secondary" size="full">
+            <Button type="button" onClick={deleteLink} variant="secondary" size="full">
               Excluir link
             </Button>
           }
