@@ -1,25 +1,27 @@
+import { format } from "date-fns"
 import { FormEvent, useEffect, useState } from "react"
+import { } from "react-day-picker"
 import { useParams } from "react-router-dom"
-import {  } from "react-day-picker"
 
 import { Button } from "../../components/button"
+import { DatePicker } from "../../components/date-picker"
+import { Input } from "../../components/input"
 import { Modal } from "../../components/modal"
 import { api } from "../../lib/axios"
-import { Input } from "../../components/input"
-import { DatePicker } from "../../components/date-picker"
-import { format } from "date-fns"
 
-interface CreateActivityModalProps {
+interface ActivityModalProps {
+  variant: 'create' | 'edit'
   startsAt?: string
   endsAt?: string
-  closeCreateActivityModal: () => void
+  closeActivityModal: () => void
 }
 
-export function CreateActivityModal({
+export function ActivityModal({
+  variant,
   startsAt,
   endsAt,
-  closeCreateActivityModal
-}: CreateActivityModalProps) {
+  closeActivityModal
+}: ActivityModalProps) {
   const { tripId } = useParams()
   const [eventDate, setEventDate] = useState<Date>()
   const [eventHour, setEventHour] = useState<string>()
@@ -56,9 +58,9 @@ export function CreateActivityModal({
 
   return (
     <Modal
-      title="Cadastrar atividade"
+      title={variant === 'create' ? 'Cadastrar atividade': 'Editar atividade' }
       description="Todos convidados podem visualizar as atividades."
-      onClose={closeCreateActivityModal}
+      onClose={closeActivityModal}
     >          
       <form onSubmit={createActivity} className="space-y-3">
         <Input

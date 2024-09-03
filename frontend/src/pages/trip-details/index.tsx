@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom"
 
 import { Button } from "../../components/button"
 import { Activities } from "./activities"
-import { CreateActivityModal } from "./create-activity-modal"
+import { ActivityModal } from "./activity-modal"
 import { DestinationAndDateHeader } from "./destination-and-date-header"
 import { Guests } from "./guests"
 import { ImportantLinks } from "./important-links"
@@ -20,14 +20,14 @@ export type Trip = {
 export function TripDetailsPage() {
   const { tripId } = useParams()
   const [trip, setTrip] = useState<Trip | undefined>()
-  const [isCreateActivityModalOpen, setIsCreateActivityModalOpen] = useState(false)
+  const [isActivityModalOpen, setIsActivityModalOpen] = useState(false)
 
-  function openCreateActivityModal() {
-    setIsCreateActivityModalOpen(true)
+  function openActivityModal() {
+    setIsActivityModalOpen(true)
   }
 
-  function closeCreateActivityModal() {
-    setIsCreateActivityModalOpen(false)
+  function closeActivityModal() {
+    setIsActivityModalOpen(false)
   }
 
   useEffect(() => {
@@ -42,7 +42,7 @@ export function TripDetailsPage() {
         <div className="flex-1 space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="text-3xl font-semibold">Atividades</h2>
-            <Button onClick={openCreateActivityModal} icon="plus">
+            <Button onClick={openActivityModal} icon="plus">
               Cadastrar atividade
             </Button>
           </div>
@@ -57,11 +57,12 @@ export function TripDetailsPage() {
         </div>
       </main>
 
-      {isCreateActivityModalOpen && (
-        <CreateActivityModal 
+      {isActivityModalOpen && (
+        <ActivityModal 
+          variant="create"
           startsAt={trip?.starts_at}
           endsAt={trip?.ends_at}
-          closeCreateActivityModal={closeCreateActivityModal}
+          closeActivityModal={closeActivityModal}
         />
       )}
     </div>
