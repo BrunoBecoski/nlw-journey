@@ -1,9 +1,9 @@
 import { ptBR } from "date-fns/locale"
-import { DayPicker } from "react-day-picker"
+import { DateInterval, DayPicker } from "react-day-picker"
 
 interface DatePickerProps {
-  startsAt?: string
-  endsAt?: string
+  startsAt: string
+  endsAt: string
   eventDate?: Date
   setEventDate: (dates: Date | undefined) => void
 }
@@ -14,13 +14,19 @@ export function DatePicker({
   eventDate,
   setEventDate,
 }: DatePickerProps) {
+
+  const matcher: DateInterval = {
+    before: new Date(startsAt),
+    after: new Date(endsAt),
+  };
+
   return (
     <div className="flex flex-col items-center">
       <DayPicker
         mode="single"
         selected={eventDate}
         onSelect={setEventDate}
-        disabled={{ before: startsAt ? new Date(startsAt) : new Date(), after: endsAt ?  new Date (endsAt) : new Date() }}
+        disabled={matcher}
         locale={ptBR}
         classNames={{
           caption_label: 'text-lg font-bold first-letter:uppercase',

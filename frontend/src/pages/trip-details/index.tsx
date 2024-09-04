@@ -12,7 +12,7 @@ import { api } from "../../lib/axios"
 export type Trip = {
   id: string
   destination: string
-  starts_at: string 
+  starts_at: string
   ends_at: string
   is_confirmed: boolean
 }
@@ -34,37 +34,42 @@ export function TripDetailsPage() {
     api.get(`/trips/${tripId}`).then(response => setTrip(response.data.trip))
   }, [tripId])
 
-  return (
-    <div className="max-w-6xl px-6 py-10 mx-auto space-y-8">
-      <DestinationAndDateHeader trip={trip}/>
+  if (trip) {
+    return (
+      <div className="max-w-6xl px-6 py-10 mx-auto space-y-8">
+        <DestinationAndDateHeader trip={trip} />
 
-      <main className="flex gap-16 px-4">
-        <div className="flex-1 space-y-6">
-          <div className="flex items-center justify-between">
-            <h2 className="text-3xl font-semibold">Atividades</h2>
-            <Button onClick={openActivityModal} icon="plus">
-              Cadastrar atividade
-            </Button>
+        <main className="flex gap-16 px-4">
+          <div className="flex-1 space-y-6">
+            <div className="flex items-center justify-between">
+              <h2 className="text-3xl font-semibold">Atividades</h2>
+              <Button onClick={openActivityModal} icon="plus">
+                Cadastrar atividade
+              </Button>
+            </div>
+
+            <Activities
+              startsAt={trip.starts_at}
+              endsAt={trip.ends_at}
+            />
           </div>
-          
-          <Activities />          
-        </div>
 
-        <div className="w-80 space-y-6">
-          <ImportantLinks />
-          <div className="w-full h-px bg-zinc-800" />
-          <Guests />
-        </div>
-      </main>
+          <div className="w-80 space-y-6">
+            <ImportantLinks />
+            <div className="w-full h-px bg-zinc-800" />
+            <Guests />
+          </div>
+        </main>
 
-      {isActivityModalOpen && (
-        <ActivityModal 
-          variant="create"
-          startsAt={trip?.starts_at}
-          endsAt={trip?.ends_at}
-          closeActivityModal={closeActivityModal}
-        />
-      )}
-    </div>
-  )
+        {isActivityModalOpen && (
+          <ActivityModal
+            variant="create"
+            startsAt={trip.starts_at}
+            endsAt={trip.ends_at}
+            closeActivityModal={closeActivityModal}
+          />
+        )}
+      </div>
+    )
+  }
 }

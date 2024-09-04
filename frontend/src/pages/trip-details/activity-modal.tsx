@@ -11,8 +11,8 @@ import { api } from "../../lib/axios"
 
 interface ActivityModalProps {
   variant: 'create' | 'edit'
-  startsAt?: string
-  endsAt?: string
+  startsAt: string
+  endsAt: string
   closeActivityModal: () => void
 }
 

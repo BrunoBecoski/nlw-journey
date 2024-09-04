@@ -15,7 +15,12 @@ interface Activity {
   }[]
 }
 
-export function Activities() {
+interface ActivitiesProps {
+  startsAt: string
+  endsAt: string
+}
+
+export function Activities({ startsAt, endsAt }: ActivitiesProps) {
   const { tripId } = useParams()
   const [activities, setActivities] = useState<Activity[]>([])
 
@@ -40,6 +45,8 @@ export function Activities() {
                       key={activity.id} 
                       title={activity.title}
                       occursAt={activity.occurs_at}
+                      startsAt={startsAt}
+                      endsAt={endsAt}
                     />
                   )
                 })}
