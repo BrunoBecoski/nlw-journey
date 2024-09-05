@@ -4,7 +4,7 @@ import { useState } from "react"
 import "react-day-picker/dist/style.css"
 
 import { Button } from "../../../components/button"
-import { DatePicker, DatePickerRange } from "../../../components/date-picker"
+// import { DatePicker, DatePickerRange } from "../../../components/date-picker"
 import { Input } from "../../../components/input"
 
 interface DestinationAndDateStepProps {
@@ -69,11 +69,11 @@ export function DestinationAndDateStep({
               </div>
             </div>
     
-            <DatePicker
+            {/* <DatePicker
               eventStartAndEndDates={eventStartAndEndDates}
               setEventStartAndEndDates={setEventStartAndEndDates}
               onClose={closeDatePicker}
-            />
+            /> */}
           </div>
         </div>
       )}
