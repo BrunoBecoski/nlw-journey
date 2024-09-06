@@ -22,7 +22,7 @@ export function ActivityModal({
   closeActivityModal
 }: ActivityModalProps) {
   const { tripId } = useParams()
-  const [eventDateHour, setEventDateHour] = useState<Date>(new Date)
+  const [eventDateTime, setEventDateTime] = useState<Date>(new Date)
 
   async function createActivity(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -33,7 +33,7 @@ export function ActivityModal({
 
     await api.post(`/trips/${tripId}/activities`, {
       title,
-      occurs_at: eventDateHour
+      occurs_at: eventDateTime
     })
 
     window.document.location.reload()
@@ -52,13 +52,12 @@ export function ActivityModal({
           placeholder="Qual a atividade?"         
         />
 
-        <Input
-          icon="tag"
-          readOnly
-          value={format(eventDateHour, "d'/'MM'/'y' 'HH':'mm'h" )}
-        />
 
-        <DateTimePicker />
+        <DateTimePicker
+          startsAt={startsAt}
+          endsAt={endsAt}
+          setEventDateTime={setEventDateTime}
+        />
 
         <Button variant="primary" size="full">
           Salvar atividade

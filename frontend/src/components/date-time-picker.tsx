@@ -1,10 +1,18 @@
-import { setHours, setMinutes } from "date-fns"
-import { ChangeEvent, useState } from "react"
+import { format, setHours, setMinutes } from "date-fns"
+import { ChangeEvent, useEffect, useState } from "react"
 import { DayPicker } from "react-day-picker"
+import { ptBR } from "date-fns/locale"
+import { Input } from "./input"
 
-export function DateTimePicker() {
-  const [selected, setSelected] = useState<Date>()
-  const [timeValue, setTimeValue] = useState<string>('00:00')
+interface DateTimePickerProps {
+  startsAt: string
+  endsAt: string
+  setEventDateTime: (eventDateTime: Date) => void
+}
+
+export function DateTimePicker({ startsAt, endsAt, setEventDateTime }: DateTimePickerProps) {
+  const [selected, setSelected] = useState(new Date())
+  const [timeValue, setTimeValue] = useState('00:00')
 
   function handleTimeChange(event: ChangeEvent<HTMLInputElement>) {
     const time = event.target.value
@@ -41,21 +49,53 @@ export function DateTimePicker() {
     setSelected(newDate)
   }
 
-  return (
-    <div className="flex flex-col items-center">
-      <form>
-        <label>
-          Selecione a hora
-          <input type="time" value={timeValue} onChange={handleTimeChange} />
-        </label>
-      </form>
+  useEffect(() => {
+    if (selected != undefined) {
+      setEventDateTime(selected)
+    }
+  }, [selected, setEventDateTime])
 
-      <DayPicker
-        mode="single"
-        selected={selected}
-        onSelect={handleDaySelect}
-        footer={`Dia selecionado: ${selected ? selected.toLocaleString(): 'nenhum'}`}
-      />
+
+  return (
+    <div>
+
+        <Input
+          icon="tag"
+          readOnly
+          value={format(selected, "d'/'MM'/'y' 'HH':'mm'h" )}
+        />
+
+ 
+      <div className="flex mt-6 justify-center">
+
+        <DayPicker
+          mode="single"
+          selected={selected}
+          onSelect={handleDaySelect}
+          locale={ptBR}
+          disabled={{
+            before: new Date(startsAt),
+            after: new Date(endsAt),
+          }}
+          classNames={{
+            caption_label: 'text-lg font-bold first-letter:uppercase',
+            nav_button_next: ' text-white hover:text-lime-400 cursor-pointer',
+            nav_button_previous: 'text-white hover:text-lime-400 cursor-pointer',
+            button: 'hover:bg-zinc-950 rounded-full',
+            day: 'cursor-pointer size-9 hover:text-lime-400',
+            day_disabled: 'opacity-10',
+            day_selected: 'bg-transparent',
+            day_range_start: 'border-2 border-lime-500 ',
+            day_range_middle: 'border-2 border-lime-500 ',
+            day_range_end: 'border-2 border-lime-500 ',
+            day_today: 'text-lime-400 font-bold',
+          }}
+        />
+
+        <div>
+          <input type="time" value="" onChange={handleTimeChange} />
+        </div>
+      </div>
     </div>
   )
 }
