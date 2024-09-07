@@ -20,11 +20,11 @@ export function DestinationAndDateHeader({ trip }: DestinationAndDateHeaderProps
     : null
 
   function openUpdateEventModal() {
-    return setIsUpdateModalOpen(true)
+    setIsUpdateModalOpen(true)
   }
 
   function closeUpdateEventModal() {
-    return setIsUpdateModalOpen(false)
+    setIsUpdateModalOpen(false)
   }
 
   return (

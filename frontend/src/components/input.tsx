@@ -19,14 +19,14 @@ const inputVariants = tv({
 })
 
 interface InputProps extends ComponentProps<'input'>, VariantProps<typeof inputVariants> {
-  icon: IconName
+  icon?: IconName
 }
 
 export function Input({ icon, variant, ...props }: InputProps) {
 
   return (
     <div className={inputVariants({variant})}>
-      <Icon name={icon} className="text-zinc-400 size-5" />
+      {icon && <Icon name={icon} className="text-zinc-400 size-5" />}
       <input
         type="text"
         className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1" 

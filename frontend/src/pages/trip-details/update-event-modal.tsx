@@ -28,11 +28,11 @@ export function UpdateEventModal({ destination, startsAt, endsAt, closeUpdateEve
     : ''
 
   function openDatePicker() {
-    return setIsDatePickerOpen(true)
+    setIsDatePickerOpen(true)
   }
 
   function closeDatePicker() {
-    return setIsDatePickerOpen(false)
+    setIsDatePickerOpen(false)
   }
 
   async function updateEvent(event: FormEvent<HTMLFormElement>) {
