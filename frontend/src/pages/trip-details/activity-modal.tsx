@@ -1,4 +1,3 @@
-import { format } from "date-fns"
 import { FormEvent, useState } from "react"
 import { useParams } from "react-router-dom"
 
@@ -10,6 +9,8 @@ import { api } from "../../lib/axios"
 
 interface ActivityModalProps {
   variant: 'create' | 'edit'
+  title?: string
+  occursAt?: string
   startsAt: string
   endsAt: string
   closeActivityModal: () => void
@@ -17,12 +18,14 @@ interface ActivityModalProps {
 
 export function ActivityModal({
   variant,
+  title,
   startsAt,
   endsAt,
+  occursAt,
   closeActivityModal
 }: ActivityModalProps) {
   const { tripId } = useParams()
-  const [eventDateTime, setEventDateTime] = useState<Date>(new Date)
+  const [eventDateTime, setEventDateTime] = useState<Date>(occursAt ? new Date(occursAt) : new Date(startsAt))
 
   async function createActivity(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -49,19 +52,29 @@ export function ActivityModal({
         <Input
           icon="tag"
           name="title"
-          placeholder="Qual a atividade?"         
+          placeholder="Qual a atividade?"
+          defaultValue={title}
         />
-
 
         <DateTimePicker
           startsAt={startsAt}
           endsAt={endsAt}
+          eventDateTime={eventDateTime}
           setEventDateTime={setEventDateTime}
         />
 
-        <Button variant="primary" size="full">
-          Salvar atividade
-        </Button>
+        <div className="flex gap-4">
+          <Button type="submit" variant="primary" size="full">
+            { variant === 'create' ? 'Criar atividade' : 'Atualizar atividade' }
+          </Button>
+          
+          { variant === 'edit' &&
+            <Button type="button" variant="secondary" size="full" >
+              Excluir atividade
+            </Button>
+          }
+        </div>
+
       </form>
     </Modal>
   )

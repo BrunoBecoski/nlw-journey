@@ -7,12 +7,12 @@ import { Icon } from "./icon"
 
 interface ActivityProps extends ComponentProps<'div'> {
   title: string
-  occursAt: string
   startsAt: string
   endsAt: string
+  occursAt: string
 }
 
-export function Activity({ title, occursAt, startsAt, endsAt, ...props }: ActivityProps) {
+export function Activity({ title, startsAt, endsAt, occursAt, ...props }: ActivityProps) {
   const [isActivityModalOpen, setIsActivityModalOpen ] = useState(false)
 
   function openActivityModal() {
@@ -38,7 +38,14 @@ export function Activity({ title, occursAt, startsAt, endsAt, ...props }: Activi
       </div>
 
       { isActivityModalOpen && 
-        <ActivityModal variant="edit" closeActivityModal={closeActivityModal} startsAt={startsAt} endsAt={endsAt} />
+        <ActivityModal
+          title={title}
+          variant="edit"
+          startsAt={startsAt}
+          endsAt={endsAt}
+          occursAt={occursAt}
+          closeActivityModal={closeActivityModal}
+        />
       }
     </div>
   )

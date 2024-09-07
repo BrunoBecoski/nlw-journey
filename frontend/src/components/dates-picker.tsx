@@ -10,7 +10,6 @@ interface DatesPickerProps {
   eventStartAndEndDates: DatesPickerRange | undefined
   setEventStartAndEndDates: (dates: DatesPickerRange | undefined) => void
   onClose: () => void
-
 }
 
 export function DatesPicker({
