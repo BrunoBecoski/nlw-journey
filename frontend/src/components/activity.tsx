@@ -10,9 +10,10 @@ interface ActivityProps extends ComponentProps<'div'> {
   startsAt: string
   endsAt: string
   occursAt: string
+  activityId: string
 }
 
-export function Activity({ title, startsAt, endsAt, occursAt, ...props }: ActivityProps) {
+export function Activity({ title, startsAt, endsAt, occursAt, activityId, ...props }: ActivityProps) {
   const [isActivityModalOpen, setIsActivityModalOpen ] = useState(false)
 
   function openActivityModal() {
@@ -31,7 +32,7 @@ export function Activity({ title, startsAt, endsAt, occursAt, ...props }: Activi
         <span className="text-zinc-100">{title}</span>
         
         <span className="text-zinc-400 text-sm ml-auto">
-          {format(occursAt, 'HH:MM')}h
+          {format(occursAt, 'HH:mm')}h
         </span>
 
         <Button title="Editar" variant="icon" icon="pen" iconSize="sm" onClick={openActivityModal} />
@@ -45,6 +46,7 @@ export function Activity({ title, startsAt, endsAt, occursAt, ...props }: Activi
           endsAt={endsAt}
           occursAt={occursAt}
           closeActivityModal={closeActivityModal}
+          activityId={activityId}
         />
       }
     </div>

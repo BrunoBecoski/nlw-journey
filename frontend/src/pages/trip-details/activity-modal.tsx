@@ -13,6 +13,7 @@ interface ActivityModalProps {
   occursAt?: string
   startsAt: string
   endsAt: string
+  activityId?: string
   closeActivityModal: () => void
 }
 
@@ -22,6 +23,7 @@ export function ActivityModal({
   startsAt,
   endsAt,
   occursAt,
+  activityId,
   closeActivityModal
 }: ActivityModalProps) {
   const { tripId } = useParams()
@@ -38,6 +40,12 @@ export function ActivityModal({
       title,
       occurs_at: eventDateTime
     })
+
+    window.document.location.reload()
+  }
+
+  async function deleteActivity() {
+    await api.delete(`/trips/${tripId}/activities/${activityId}`)
 
     window.document.location.reload()
   }
@@ -69,7 +77,7 @@ export function ActivityModal({
           </Button>
           
           { variant === 'edit' &&
-            <Button type="button" variant="secondary" size="full" >
+            <Button type="button" onClick={deleteActivity} variant="secondary" size="full" >
               Excluir atividade
             </Button>
           }

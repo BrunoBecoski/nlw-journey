@@ -42,6 +42,7 @@ export function Activities({ startsAt, endsAt }: ActivitiesProps) {
                 {category.activities.map(activity => {
                   return (
                     <Activity
+                      activityId={activity.id}
                       key={activity.id} 
                       title={activity.title}
                       occursAt={activity.occurs_at}
