@@ -37,10 +37,7 @@ export function DateTimePicker({
         minutes,
       )
 
-  
-      console.log(newDate)
-  
-      // setEventDateTime(newDate)
+      setEventDateTime(newDate)
     }
 
   }, [timeValue, dateValue, setEventDateTime])

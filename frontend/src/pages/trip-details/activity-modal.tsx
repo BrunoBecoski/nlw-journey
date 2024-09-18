@@ -50,13 +50,26 @@ export function ActivityModal({
     window.document.location.reload()
   }
 
+  async function updateActivity(event: FormEvent<HTMLFormElement>) {
+    const data = new FormData(event.currentTarget)
+
+    const title = data.get('title')?.toString()
+
+    await api.put(`/trips/${tripId}/activities/${activityId}`, {
+      title,
+      occurs_at: eventDateTime,
+    })
+
+    window.document.location.reload()
+  }
+
   return (
     <Modal
       title={variant === 'create' ? 'Cadastrar atividade': 'Editar atividade' }
       description="Todos convidados podem visualizar as atividades."
       onClose={closeActivityModal}
     >          
-      <form onSubmit={createActivity} className="space-y-3">
+      <form onSubmit={variant === 'create' ? createActivity : updateActivity} className="space-y-3">
         <Input
           icon="tag"
           name="title"
