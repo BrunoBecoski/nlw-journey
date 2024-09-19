@@ -24,7 +24,7 @@ export function Guest({ name, email, isConfirmed, index, ...props }: GuestProps)
       {isConfirmed ? (
         <Icon 
           name="circle-check"
-          className="text-green-400 size-5"
+          className="text-lime-400 size-5"
         />
       ) : (
         <Icon 
