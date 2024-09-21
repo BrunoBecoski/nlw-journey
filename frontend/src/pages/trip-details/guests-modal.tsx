@@ -24,17 +24,23 @@ export function GuestsModal({ closeGuestsModal, participants }: GuestsModalProps
       return
     }
 
+    const emailAlreadyInvite = participants.find(participant => participant.email === email)
+
+    if (emailAlreadyInvite != undefined) {
+      return
+    }
+
     await api.post(`/trips/${tripId}/invites`, {
       email,
     })
 
-    window.document.location.reload()
+     window.document.location.reload()
   }
   
   return (
     <Modal
       title="Gerenciar Convidados"
-      description="Todos convidados podem visualizar as atividades."
+      description="Todos convidados podem visualizar os participantes."
 
       onClose={closeGuestsModal}
     >
