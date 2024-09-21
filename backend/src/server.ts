@@ -6,14 +6,16 @@ import {
 } from "fastify-type-provider-zod"
 import { env } from "./env"
 import { errorHandler } from "./error-handle"
-import { confirmParticipant } from "./routes/confirm-participant"
 import { confirmTrip } from "./routes/confirm-trip"
 import { createInvite } from "./routes/create-invite"
 import { createTrip } from "./routes/create-trip"
-import { getParticipant } from "./routes/get-participant"
-import { getParticipants } from "./routes/get-participants"
 import { getTripDetails } from "./routes/get-trip-details"
 import { updateTrip } from "./routes/update-trip"
+
+import { confirmParticipant } from "./routes/participant/confirm-participant"
+import { getParticipant } from "./routes/participant/get-participant"
+import { getParticipants } from "./routes/participant/get-participants"
+import { deleteParticipant } from "./routes/participant/delete-participant"
 
 import { createActivity } from "./routes/activity/create-activity"
 import { getActivities } from "./routes/activity/get-activities"
@@ -38,12 +40,14 @@ app.setSerializerCompiler(serializerCompiler)
 
 app.register(createTrip)
 app.register(confirmTrip)
-app.register(confirmParticipant)
-app.register(getParticipants)
 app.register(createInvite)
 app.register(updateTrip)
 app.register(getTripDetails)
+
+app.register(confirmParticipant)
 app.register(getParticipant)
+app.register(getParticipants)
+app.register(deleteParticipant)
 
 app.register(createActivity)
 app.register(getActivities)

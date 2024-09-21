@@ -37,6 +37,13 @@ export function GuestsModal({ closeGuestsModal, participants }: GuestsModalProps
      window.document.location.reload()
   }
   
+
+  async function deleteParticipant(participantId: string) {
+    await api.delete(`/participants/${participantId}`)
+
+    window.document.location.reload()
+  }
+  
   return (
     <Modal
       title="Gerenciar Convidados"
@@ -72,8 +79,9 @@ export function GuestsModal({ closeGuestsModal, participants }: GuestsModalProps
                     </span>
                   </div>
                 </div>
-                <Button variant="icon" title="editar">
-                  <Icon name="pen" />
+                <Button onClick={() => deleteParticipant(participant.id)} variant="secondary">
+                  <Icon name="trash" />
+                  Excluir convidado
                 </Button>
               </div>
             )
