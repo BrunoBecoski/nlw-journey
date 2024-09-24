@@ -79,9 +79,9 @@ export function GuestsModal({ closeGuestsModal, participants }: GuestsModalProps
                     </span>
                   </div>
                 </div>
-                <Button onClick={() => deleteParticipant(participant.id)} variant="secondary">
-                  <Icon name="trash" />
-                  Excluir convidado
+                <Button onClick={() => {}} variant="secondary">
+                  <Icon name="pen" />
+                  Editar convidado
                 </Button>
               </div>
             )
