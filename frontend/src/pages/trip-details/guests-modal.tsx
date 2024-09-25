@@ -43,6 +43,16 @@ export function GuestsModal({ closeGuestsModal, participants }: GuestsModalProps
 
     window.document.location.reload()
   }
+
+  async function confirmParticipant(participant: Participant) {
+    console.log(participant)
+    await api.patch(`/participants/${participant.id}/confirm`, {
+      name: participant.name ? participant.name : '',
+      email: participant.email
+    })
+
+    window.document.location.reload()
+  }
   
   return (
     <Modal
@@ -55,35 +65,40 @@ export function GuestsModal({ closeGuestsModal, participants }: GuestsModalProps
         <div className="space-y-4">
           {participants.map((participant, index) => {
             return (
-              <div className="flex items-center justify-between" key={participant.id}>
-                <div className="flex items-center gap-4">
-                  <Button variant="icon">
-                    {participant.is_confirmed ? (
-                      <Icon 
-                        name="circle-check"
-                      />
-                      ) : (
-                      <Icon 
-                        name="circle-dashed"
-                      />
-                    )}
-                  </Button>
+               <div className="flex items-center justify-between" key={participant.id}>
+                 <div className="flex items-center gap-4">
+                     {participant.is_confirmed ? (
+                       <Button variant="icon">
+                         <Icon
+                           className="text-lime-500"
+                           name="circle-check"
+                         />
+                       </Button>
+                       ) : (
+                         <Button variant="icon" onClick={() => confirmParticipant(participant)}>
+                           <Icon
+                             className="text-zinc-400"
 
-                  <div className="space-y-1.5">
-                    <span className="block font-medium text-zinc-100">
-                      {participant.name ?? `Convidado ${index}`}
-                    </span>
+                             name="circle-dashed"
+                           />
+                       </Button>
+                     )}
 
-                    <span className="block text-sm text-zinc-400 truncate">
-                      {participant.email}
-                    </span>
-                  </div>
-                </div>
-                <Button onClick={() => {}} variant="secondary">
-                  <Icon name="pen" />
-                  Editar convidado
-                </Button>
-              </div>
+                   <div className="space-y-1.5">
+                     <span className="block font-medium text-zinc-100">
+                       {participant.name ?? `Convidado ${index}`}
+                     </span>
+
+                     <span className="block text-sm text-zinc-400 truncate">
+                       {participant.email}
+                     </span>
+                   </div>
+                 </div>
+                 <Button onClick={() => {}} variant="secondary">
+                   <Icon name="pen" />
+                   Editar convidado
+                 </Button>
+               </div>
             )
           })}
         </div>
