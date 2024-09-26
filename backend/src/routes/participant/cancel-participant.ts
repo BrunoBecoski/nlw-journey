@@ -1,13 +1,12 @@
 import type { FastifyInstance } from "fastify"
 import type { ZodTypeProvider } from "fastify-type-provider-zod"
 import { z } from "zod"
-import { env } from "../../env"
 import { ClientError } from "../../errors/client-error"
 import { prisma } from "../../lib/prisma"
 
-export async function confirmParticipant(app: FastifyInstance) {
+export async function cancelParticipant(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().patch(
-    '/participants/:participantId/confirm',
+    '/participants/:participantId/cancel',
     {
       schema: {
         params: z.object({
@@ -27,18 +26,13 @@ export async function confirmParticipant(app: FastifyInstance) {
       if (!participant) {
         throw new ClientError('Participant not found.')
       }
- 
-      if (participant.is_confirmed) {
-        return reply.redirect(`${env.WEB_BASE_URL}/trips/${participant.trip_id}`)
-      }
 
       await prisma.participant.update({
         where: { id: participantId },
-        data: { is_confirmed: true }
+        data: { is_confirmed: false }
       })
-      
-      // return reply.redirect(`${env.WEB_BASE_URL}/trips/${participant.trip_id}`)
+
       return reply.status(204).send()
-    },
+    }
   )
 }

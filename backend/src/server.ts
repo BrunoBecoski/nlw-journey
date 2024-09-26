@@ -13,6 +13,7 @@ import { getTripDetails } from "./routes/get-trip-details"
 import { updateTrip } from "./routes/update-trip"
 
 import { confirmParticipant } from "./routes/participant/confirm-participant"
+import { cancelParticipant } from "./routes/participant/cancel-participant"
 import { getParticipant } from "./routes/participant/get-participant"
 import { getParticipants } from "./routes/participant/get-participants"
 import { updateParticipant } from "./routes/participant/update-participant"
@@ -46,6 +47,7 @@ app.register(updateTrip)
 app.register(getTripDetails)
 
 app.register(confirmParticipant)
+app.register(cancelParticipant)
 app.register(getParticipant)
 app.register(getParticipants)
 app.register(updateParticipant)
