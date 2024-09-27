@@ -44,12 +44,14 @@ export function GuestsModal({ closeGuestsModal, participants }: GuestsModalProps
     window.document.location.reload()
   }
 
-  async function confirmParticipant(participant: Participant) {
-    console.log(participant)
-    await api.patch(`/participants/${participant.id}/confirm`, {
-      name: participant.name ? participant.name : '',
-      email: participant.email
-    })
+  async function confirmParticipant(participantId: string) {
+    await api.patch(`/participants/${participantId}/confirm`)
+
+    window.document.location.reload()
+  }
+
+  async function cancelParticipant(participantId: string) {
+    await api.patch(`/participants/${participantId}/cancel`)
 
     window.document.location.reload()
   }
@@ -68,17 +70,16 @@ export function GuestsModal({ closeGuestsModal, participants }: GuestsModalProps
                <div className="flex items-center justify-between" key={participant.id}>
                  <div className="flex items-center gap-4">
                      {participant.is_confirmed ? (
-                       <Button variant="icon">
+                       <Button variant="icon" onClick={() => cancelParticipant(participant.id)}>
                          <Icon
                            className="text-lime-500"
                            name="circle-check"
                          />
                        </Button>
                        ) : (
-                         <Button variant="icon" onClick={() => confirmParticipant(participant)}>
+                         <Button variant="icon" onClick={() => confirmParticipant(participant.id)}>
                            <Icon
                              className="text-zinc-400"
-
                              name="circle-dashed"
                            />
                        </Button>
