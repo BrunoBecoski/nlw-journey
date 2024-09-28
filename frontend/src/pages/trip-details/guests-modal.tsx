@@ -2,9 +2,10 @@ import type { Participant } from "./guests"
 import { Modal } from "../../components/modal"
 import { Icon } from "../../components/icon"
 import { Button } from "../../components/button"
-import { FormEvent } from "react"
+import { FormEvent, useState } from "react"
 import { useParams } from "react-router-dom"
 import { api } from "../../lib/axios"
+import { Input } from "../../components/input"
 
 interface GuestsModalProps {
   closeGuestsModal: () => void
@@ -13,6 +14,7 @@ interface GuestsModalProps {
 
 export function GuestsModal({ closeGuestsModal, participants }: GuestsModalProps) {
   const { tripId } = useParams()
+  const [editParticipant, setEditParticipant] = useState<Participant | undefined>(undefined)
 
   async function handleInvite(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -65,43 +67,60 @@ export function GuestsModal({ closeGuestsModal, participants }: GuestsModalProps
     >
       <div className="flex flex-col gap-6">
         <div className="space-y-4">
-          {participants.map((participant, index) => {
-            return (
-               <div className="flex items-center justify-between" key={participant.id}>
-                 <div className="flex items-center gap-4">
-                     {participant.is_confirmed ? (
-                       <Button variant="icon" onClick={() => cancelParticipant(participant.id)}>
-                         <Icon
-                           className="text-lime-500"
-                           name="circle-check"
-                         />
-                       </Button>
-                       ) : (
-                         <Button variant="icon" onClick={() => confirmParticipant(participant.id)}>
-                           <Icon
-                             className="text-zinc-400"
-                             name="circle-dashed"
-                           />
-                       </Button>
-                     )}
+          {
+            editParticipant !== undefined ? (
+              <div className="space-y-1.5">
+            <Input value={editParticipant.name ?? ''} />
 
-                   <div className="space-y-1.5">
-                     <span className="block font-medium text-zinc-100">
-                       {participant.name ?? `Convidado ${index}`}
-                     </span>
+                <span className="block text-sm text-zinc-400 truncate">
+                  {editParticipant.email}
+                </span>
 
-                     <span className="block text-sm text-zinc-400 truncate">
-                       {participant.email}
-                     </span>
+                <Button onClick={() => setEditParticipant(undefined)} variant="secondary">
+                  Fechar
+                </Button>              
+                </div>
+            ) : (
+              participants.map((participant, index) => {
+                return (
+                   <div className="flex items-center justify-between" key={participant.id}>
+                     <div className="flex items-center gap-4">
+                         {participant.is_confirmed ? (
+                           <Button title="Cancelar participante" variant="icon" onClick={() => cancelParticipant(participant.id)}>
+                             <Icon
+                               className="text-lime-500"
+                               name="circle-check"
+                             />
+                           </Button>
+                           ) : (
+                             <Button title="Confirmar participante" variant="icon" onClick={() => confirmParticipant(participant.id)}>
+                               <Icon
+                                 className="text-zinc-400"
+                                 name="circle-dashed"
+                               />
+                           </Button>
+                         )}
+    
+                       <div className="space-y-1.5">
+                         <span className="block font-medium text-zinc-100">
+                           {participant.name ?? `Convidado ${index}`}
+                         </span>
+    
+                         <span className="block text-sm text-zinc-400 truncate">
+                           {participant.email}
+                         </span>
+                       </div>
+                     </div>
+                     <Button onClick={() => setEditParticipant(participant)} variant="secondary">
+                       <Icon name="pen" />
+                       Editar convidado
+                     </Button>
                    </div>
-                 </div>
-                 <Button onClick={() => {}} variant="secondary">
-                   <Icon name="pen" />
-                   Editar convidado
-                 </Button>
-               </div>
+                )
+              })
             )
-          })}
+          }
+          
         </div>
 
         <form onSubmit={handleInvite} className="p-2.5 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2">
