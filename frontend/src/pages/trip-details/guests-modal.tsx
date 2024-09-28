@@ -15,6 +15,7 @@ interface GuestsModalProps {
 export function GuestsModal({ closeGuestsModal, participants }: GuestsModalProps) {
   const { tripId } = useParams()
   const [editParticipant, setEditParticipant] = useState<Participant | undefined>(undefined)
+  const [name, setName] = useState('')
 
   async function handleInvite(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -36,12 +37,11 @@ export function GuestsModal({ closeGuestsModal, participants }: GuestsModalProps
       email,
     })
 
-     window.document.location.reload()
+    window.document.location.reload()
   }
-  
 
-  async function deleteParticipant(participantId: string) {
-    await api.delete(`/participants/${participantId}`)
+  async function deleteParticipant() {
+    await api.delete(`/participants/${editParticipant?.id}`)
 
     window.document.location.reload()
   }
@@ -57,89 +57,96 @@ export function GuestsModal({ closeGuestsModal, participants }: GuestsModalProps
 
     window.document.location.reload()
   }
-  
+
+  function openEditParticipant(participant: Participant) {
+    setEditParticipant(participant)
+    if (participant.name) {
+      setName(participant.name)
+    }
+  }
+
+  function closeEditParticipant() {
+    setEditParticipant(undefined)
+    setName('')
+  }
+
   return (
     <Modal
       title="Gerenciar Convidados"
       description="Todos convidados podem visualizar os participantes."
-
       onClose={closeGuestsModal}
     >
       <div className="flex flex-col gap-6">
-        <div className="space-y-4">
-          {
-            editParticipant !== undefined ? (
-              <div className="space-y-1.5">
-            <Input value={editParticipant.name ?? ''} />
-
-                <span className="block text-sm text-zinc-400 truncate">
-                  {editParticipant.email}
-                </span>
-
-                <Button onClick={() => setEditParticipant(undefined)} variant="secondary">
-                  Fechar
-                </Button>              
-                </div>
-            ) : (
-              participants.map((participant, index) => {
-                return (
-                   <div className="flex items-center justify-between" key={participant.id}>
-                     <div className="flex items-center gap-4">
-                         {participant.is_confirmed ? (
-                           <Button title="Cancelar participante" variant="icon" onClick={() => cancelParticipant(participant.id)}>
-                             <Icon
-                               className="text-lime-500"
-                               name="circle-check"
-                             />
-                           </Button>
-                           ) : (
-                             <Button title="Confirmar participante" variant="icon" onClick={() => confirmParticipant(participant.id)}>
-                               <Icon
-                                 className="text-zinc-400"
-                                 name="circle-dashed"
-                               />
-                           </Button>
-                         )}
-    
-                       <div className="space-y-1.5">
-                         <span className="block font-medium text-zinc-100">
-                           {participant.name ?? `Convidado ${index}`}
-                         </span>
-    
-                         <span className="block text-sm text-zinc-400 truncate">
-                           {participant.email}
-                         </span>
-                       </div>
-                     </div>
-                     <Button onClick={() => setEditParticipant(participant)} variant="secondary">
-                       <Icon name="pen" />
-                       Editar convidado
-                     </Button>
-                   </div>
-                )
-              })
-            )
-          }
-          
-        </div>
-
-        <form onSubmit={handleInvite} className="p-2.5 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2">
-          <div className="px-2 flex items-center flex-1 gap-2">
-            <Icon name="at-sign" className="text-zinc-400 size-5" />
-            <input
-              type="email"
-              name="email"
-              placeholder="Digite o e-mail do convidado"
-              className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1"
-            />
+        {editParticipant !== undefined ? (
+          <div className="space-y-1.5">
+            <Button onClick={closeEditParticipant}>Voltar</Button>
+            <Input value={name} onChange={event => setName(event.target.value)} />
+            <Input value={editParticipant.email} readOnly />
+            <div className="flex gap-4">
+              <Button onClick={() => {}} variant="primary" size="full">
+                Atualizar participante
+              </Button>
+              <Button onClick={deleteParticipant} variant="secondary" size="full">
+                Excluir participante
+              </Button>
+            </div>
           </div>
-
-          <Button type="submit" variant="primary" icon="plus">
-            Convidar
-          </Button>
-        </form>
+        ) : (
+          <>
+            {participants.map((participant, index) => {
+              return (
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between" key={participant.id}>
+                    <div className="flex items-center gap-4">
+                      {participant.is_confirmed ? (
+                        <Button title="Cancelar participante" variant="icon" onClick={() => cancelParticipant(participant.id)}>
+                          <Icon
+                            className="text-lime-500"
+                            name="circle-check"
+                          />
+                        </Button>
+                      ) : (
+                        <Button title="Confirmar participante" variant="icon" onClick={() => confirmParticipant(participant.id)}>
+                          <Icon
+                            className="text-zinc-400"
+                            name="circle-dashed"
+                          />
+                        </Button>
+                      )}
+                      <div className="space-y-1.5">
+                        <span className="block font-medium text-zinc-100">
+                          {participant.name ?? `Convidado ${index}`}
+                        </span>
+                        <span className="block text-sm text-zinc-400 truncate">
+                          {participant.email}
+                        </span>
+                      </div>
+                    </div>
+                    <Button onClick={() => openEditParticipant(participant)} variant="secondary">
+                      <Icon name="pen" />
+                      Editar convidado
+                    </Button>
+                  </div>
+                </div>
+              )
+            })}
+            <form onSubmit={handleInvite} className="p-2.5 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2">
+              <div className="px-2 flex items-center flex-1 gap-2">
+                <Icon name="at-sign" className="text-zinc-400 size-5" />
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Digite o e-mail do convidado"
+                  className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1"
+                />
+              </div>
+              <Button type="submit" variant="primary" icon="plus">
+                Convidar
+              </Button>
+            </form>
+          </>
+        )}
       </div>
     </Modal>
-
   )
 }
