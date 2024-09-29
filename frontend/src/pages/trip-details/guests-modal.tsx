@@ -16,6 +16,7 @@ export function GuestsModal({ closeGuestsModal, participants }: GuestsModalProps
   const { tripId } = useParams()
   const [editParticipant, setEditParticipant] = useState<Participant | undefined>(undefined)
   const [name, setName] = useState('')
+  const [isConfirmed, setIsConfirmed] = useState(false)
 
   async function handleInvite(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -35,6 +36,19 @@ export function GuestsModal({ closeGuestsModal, participants }: GuestsModalProps
 
     await api.post(`/trips/${tripId}/invites`, {
       email,
+    })
+
+    window.document.location.reload()
+  }
+
+  async function updateParticipant(participantId: string) {
+    if (name.length === 0) {
+      return
+    }
+
+    await api.put(`/participants/${participantId}`, {
+      name,
+      is_confirmed: isConfirmed
     })
 
     window.document.location.reload()
@@ -60,6 +74,7 @@ export function GuestsModal({ closeGuestsModal, participants }: GuestsModalProps
 
   function openEditParticipant(participant: Participant) {
     setEditParticipant(participant)
+    setIsConfirmed(participant.is_confirmed)
     if (participant.name) {
       setName(participant.name)
     }
@@ -68,22 +83,38 @@ export function GuestsModal({ closeGuestsModal, participants }: GuestsModalProps
   function closeEditParticipant() {
     setEditParticipant(undefined)
     setName('')
+    setIsConfirmed(false)
   }
 
   return (
     <Modal
       title="Gerenciar Convidados"
       description="Todos convidados podem visualizar os participantes."
-      onClose={closeGuestsModal}
+      onClose={editParticipant == undefined ? closeGuestsModal : closeEditParticipant}
     >
       <div className="flex flex-col gap-6">
         {editParticipant !== undefined ? (
           <div className="space-y-1.5">
-            <Button onClick={closeEditParticipant}>Voltar</Button>
+            <div className="flex gap-4">
+              <Button
+                size="full"
+                variant={isConfirmed ? 'primary' : 'secondary'}
+                onClick={() => setIsConfirmed(true)}
+              >
+                Confirmar
+              </Button>
+              <Button
+                size="full"
+                variant={isConfirmed ? 'secondary' : 'primary'}
+                onClick={() => setIsConfirmed(false)}
+              >
+                Cancelar
+              </Button>
+            </div>
             <Input value={name} onChange={event => setName(event.target.value)} />
             <Input value={editParticipant.email} readOnly />
             <div className="flex gap-4">
-              <Button onClick={() => {}} variant="primary" size="full">
+              <Button onClick={() => updateParticipant(editParticipant.id)} variant="primary" size="full">
                 Atualizar participante
               </Button>
               <Button onClick={deleteParticipant} variant="secondary" size="full">
