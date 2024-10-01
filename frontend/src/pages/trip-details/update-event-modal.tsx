@@ -6,7 +6,7 @@ import { Button } from "../../components/button"
 import { Input } from "../../components/input"
 import { Modal } from "../../components/modal"
 import { api } from "../../lib/axios"
-// import { DatePicker, DatePickerRange } from "../../components/date-picker"
+import { DatesPicker, DatesPickerRange } from "../../components/dates-picker"
 
 interface UpdateEventModalProps {
   destination?: string
@@ -18,7 +18,7 @@ interface UpdateEventModalProps {
 export function UpdateEventModal({ destination, startsAt, endsAt, closeUpdateEventModal }: UpdateEventModalProps) {
   const { tripId } = useParams()
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
-  const [eventStartAndEndDates, setEventStartAndEndDates] = useState<DatePickerRange | undefined>({
+  const [eventStartAndEndDates, setEventStartAndEndDates] = useState<DatesPickerRange | undefined>({
     from: startsAt ? new Date(startsAt) : new Date(), 
     to: endsAt ? new Date(endsAt) : new Date(),
   })
@@ -57,12 +57,11 @@ export function UpdateEventModal({ destination, startsAt, endsAt, closeUpdateEve
       title="Atualizar viagem"
     >
       {isDatePickerOpen? (
-        <></>
-      //   <DatePicker
-      //   eventStartAndEndDates={eventStartAndEndDates}
-      //   setEventStartAndEndDates={setEventStartAndEndDates}
-      //   onClose={closeDatePicker}
-      // />
+        <DatesPicker
+          eventStartAndEndDates={eventStartAndEndDates}
+          setEventStartAndEndDates={setEventStartAndEndDates}
+          onClose={closeDatePicker}
+        />
       ) : (
         <form onSubmit={updateEvent} className="space-y-2">
           <Input
