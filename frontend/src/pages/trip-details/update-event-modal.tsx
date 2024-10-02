@@ -1,12 +1,13 @@
-import { useParams } from "react-router-dom"
 import { format } from "date-fns"
+import { ptBR } from "date-fns/locale"
 import { FormEvent, useState } from "react"
+import { useParams } from "react-router-dom"
 
 import { Button } from "../../components/button"
+import { DatesPicker, DatesPickerRange } from "../../components/dates-picker"
 import { Input } from "../../components/input"
 import { Modal } from "../../components/modal"
 import { api } from "../../lib/axios"
-import { DatesPicker, DatesPickerRange } from "../../components/dates-picker"
 
 interface UpdateEventModalProps {
   destination?: string
@@ -24,7 +25,7 @@ export function UpdateEventModal({ destination, startsAt, endsAt, closeUpdateEve
   })
 
   const displayedDate = eventStartAndEndDates && eventStartAndEndDates.from && eventStartAndEndDates.to
-    ? format(eventStartAndEndDates.from, "d 'de 'LLL").concat(' até ').concat(format(eventStartAndEndDates.to, "d' de 'LLL"))
+    ? format(eventStartAndEndDates.from, "d 'de 'LLL", { locale: ptBR }).concat(' até ').concat(format(eventStartAndEndDates.to, "d' de 'LLL", { locale: ptBR }))
     : ''
 
   function openDatePicker() {

@@ -1,11 +1,13 @@
 import { format } from "date-fns"
+import { ptBR } from "date-fns/locale"
 import { useState } from "react"
+
 
 import { Button } from "../../components/button"
 import { Trip } from "./index"
 
-import { UpdateEventModal } from "./update-event-modal"
 import { Icon } from "../../components/icon"
+import { UpdateEventModal } from "./update-event-modal"
 
 interface DestinationAndDateHeaderProps {
   trip?: Trip
@@ -16,7 +18,7 @@ export function DestinationAndDateHeader({ trip }: DestinationAndDateHeaderProps
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false)
 
   const displayedDate = trip
-    ? format(trip.starts_at, "d' de 'LLL").concat(' até ').concat(format(trip.ends_at, "d' de 'LLL"))
+    ? format(trip.starts_at, "d' de 'LLL", { locale: ptBR }).concat(' até ').concat(format(trip.ends_at, "d' de 'LLL", { locale: ptBR }))
     : null
 
   function openUpdateEventModal() {

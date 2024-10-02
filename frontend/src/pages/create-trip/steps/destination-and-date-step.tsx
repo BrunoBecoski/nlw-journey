@@ -1,4 +1,5 @@
 import { format } from "date-fns"
+import { ptBR } from "date-fns/locale"
 import { Calendar } from "lucide-react"
 import { useState } from "react"
 import "react-day-picker/dist/style.css"
@@ -35,7 +36,7 @@ export function DestinationAndDateStep({
   }
 
   const displayedDate = eventStartAndEndDates && eventStartAndEndDates.from && eventStartAndEndDates.to
-    ? format(eventStartAndEndDates.from, "d' de 'LLL").concat(' até ').concat(format(eventStartAndEndDates.to, "d' de 'LLL"))
+    ? format(eventStartAndEndDates.from, "d' de 'LLL", { locale: ptBR }).concat(' até ').concat(format(eventStartAndEndDates.to, "d' de 'LLL", { locale: ptBR }))
     : ''
   
   return (
