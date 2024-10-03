@@ -5,12 +5,14 @@ import {
   validatorCompiler
 } from "fastify-type-provider-zod"
 import { env } from "./env"
+
 import { errorHandler } from "./error-handle"
-import { confirmTrip } from "./routes/confirm-trip"
-import { createInvite } from "./routes/create-invite"
-import { createTrip } from "./routes/create-trip"
-import { getTripDetails } from "./routes/get-trip-details"
-import { updateTrip } from "./routes/update-trip"
+
+import { createTrip } from "./routes/trip/create-trip"
+import { createInvite } from "./routes/trip/create-invite"
+import { getTripDetails } from "./routes/trip/get-trip-details"
+import { updateTrip } from "./routes/trip/update-trip"
+import { confirmTrip } from "./routes/trip/confirm-trip"
 
 import { confirmParticipant } from "./routes/participant/confirm-participant"
 import { cancelParticipant } from "./routes/participant/cancel-participant"
@@ -41,8 +43,8 @@ app.setValidatorCompiler(validatorCompiler)
 app.setSerializerCompiler(serializerCompiler)
 
 app.register(createTrip)
-app.register(confirmTrip)
 app.register(createInvite)
+app.register(confirmTrip)
 app.register(updateTrip)
 app.register(getTripDetails)
 
