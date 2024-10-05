@@ -17,26 +17,34 @@ export function GuestsModal({ closeGuestsModal, participants }: GuestsModalProps
   const [editParticipant, setEditParticipant] = useState<Participant | undefined>(undefined)
   const [name, setName] = useState('')
   const [isConfirmed, setIsConfirmed] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   async function handleInvite(event: FormEvent<HTMLFormElement>) {
+    setIsLoading(true)
     event.preventDefault()
 
     const data = new FormData(event.currentTarget)
     const email = data.get('email')?.toString()
 
     if (!email) {
-      return
+      setIsLoading(false)
+      
+      return      
     }
 
     const emailAlreadyInvite = participants.find(participant => participant.email === email)
 
     if (emailAlreadyInvite != undefined) {
+      setIsLoading(false)
+
       return
     }
 
     await api.post(`/trips/${tripId}/invites`, {
       email,
     })
+
+    setIsLoading(false)
 
     window.document.location.reload()
   }
@@ -171,7 +179,7 @@ export function GuestsModal({ closeGuestsModal, participants }: GuestsModalProps
                   className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1"
                 />
               </div>
-              <Button type="submit" variant="primary" icon="plus">
+              <Button type="submit" variant="primary" icon="plus" isLoading={isLoading}>
                 Convidar
               </Button>
             </form>
